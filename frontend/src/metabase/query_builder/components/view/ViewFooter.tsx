@@ -1,13 +1,38 @@
 /* eslint-disable react/prop-types */
 import cx from "classnames";
+import { useCallback } from "react";
 import { t } from "ttag";
 
 import ButtonBar from "metabase/components/ButtonBar";
 import CS from "metabase/css/core/index.css";
 import { EmbedMenu } from "metabase/dashboard/components/EmbedMenu";
+import { useDispatch, useSelector } from "metabase/lib/redux";
 import { ResourceEmbedButton } from "metabase/public/components/ResourceEmbedButton";
+import {
+  onCloseChartSettings,
+  onOpenChartSettings,
+  onCloseChartType,
+  onOpenChartType,
+  setUIControls,
+  onOpenTimelines,
+  onCloseTimelines,
+} from "metabase/query_builder/actions";
 import QueryDownloadWidget from "metabase/query_builder/components/QueryDownloadWidget";
-import { MODAL_TYPES } from "metabase/query_builder/constants";
+import {
+  MODAL_TYPES,
+  type QueryModalType,
+} from "metabase/query_builder/constants";
+import {
+  getFirstQueryResult,
+  getIsObjectDetail,
+  getIsTimeseries,
+  getIsVisualized,
+  getQuestion,
+  getQuestionAlerts,
+  getUiControls,
+  getVisualizationSettings,
+} from "metabase/query_builder/selectors";
+import { canManageSubscriptions as canManageSubscriptionsSelector } from "metabase/selectors/user";
 import * as Lib from "metabase-lib";
 
 import { ExecutionTime } from "./ExecutionTime";
@@ -19,30 +44,44 @@ import QuestionTimelineWidget from "./QuestionTimelineWidget";
 import ViewButton from "./ViewButton";
 import { FooterButtonGroup, ViewFooterRoot } from "./ViewFooter.styled";
 
-const ViewFooter = ({
-  question,
-  result,
-  className,
-  isShowingChartTypeSidebar,
-  isShowingChartSettingsSidebar,
-  isShowingRawTable,
-  onOpenChartType,
-  onOpenModal,
-  onCloseChartType,
-  onOpenChartSettings,
-  onCloseChartSettings,
-  setUIControls,
-  isObjectDetail,
-  questionAlerts,
-  visualizationSettings,
-  canManageSubscriptions,
-  isVisualized,
-  isTimeseries,
-  isShowingTimelineSidebar,
-  onOpenTimelines,
-  onCloseTimelines,
-}) => {
-  if (!result) {
+export const ViewFooter = ({ className }: { className?: string }) => {
+  const dispatch = useDispatch();
+
+  const {
+    question,
+    result,
+    uiControls,
+    isObjectDetail,
+    questionAlerts,
+    visualizationSettings,
+    canManageSubscriptions,
+    isVisualized,
+    isTimeseries,
+  } = useSelector(state => ({
+    question: getQuestion(state),
+    result: getFirstQueryResult(state),
+    uiControls: getUiControls(state),
+    isObjectDetail: getIsObjectDetail(state),
+    questionAlerts: getQuestionAlerts(state),
+    visualizationSettings: getVisualizationSettings(state),
+    canManageSubscriptions: canManageSubscriptionsSelector(state),
+    isVisualized: getIsVisualized(state),
+    isTimeseries: getIsTimeseries(state),
+  }));
+
+  const {
+    isShowingChartTypeSidebar,
+    isShowingChartSettingsSidebar,
+    isShowingRawTable,
+    isShowingTimelineSidebar,
+  } = uiControls;
+
+  const onOpenModal = useCallback(
+    (modal: QueryModalType, modalContext?: unknown) =>
+      dispatch(setUIControls({ modal, modalContext })),
+    [dispatch],
+  );
+  if (!result || !question) {
     return null;
   }
 
@@ -68,8 +107,8 @@ const ViewFooter = ({
                 active={isShowingChartTypeSidebar}
                 onClick={
                   isShowingChartTypeSidebar
-                    ? () => onCloseChartType()
-                    : () => onOpenChartType()
+                    ? () => dispatch(onCloseChartType())
+                    : () => dispatch(onOpenChartType())
                 }
               >
                 {t`Visualization`}
@@ -84,8 +123,8 @@ const ViewFooter = ({
                 data-testid="viz-settings-button"
                 onClick={
                   isShowingChartSettingsSidebar
-                    ? () => onCloseChartSettings()
-                    : () => onOpenChartSettings()
+                    ? () => dispatch(onCloseChartSettings())
+                    : () => dispatch(onOpenChartSettings())
                 }
               />
             </FooterButtonGroup>
@@ -168,8 +207,8 @@ const ViewFooter = ({
               key="timelines"
               className={cx(CS.hide, CS.smShow)}
               isShowingTimelineSidebar={isShowingTimelineSidebar}
-              onOpenTimelines={onOpenTimelines}
-              onCloseTimelines={onCloseTimelines}
+              onOpenTimelines={() => dispatch(onOpenTimelines())}
+              onCloseTimelines={() => dispatch(onCloseTimelines())}
             />
           ),
         ]}
@@ -177,5 +216,3 @@ const ViewFooter = ({
     </ViewFooterRoot>
   );
 };
-
-export default ViewFooter;
