@@ -43,7 +43,13 @@ export const saveChartImage = async (selector: string, fileName: string) => {
   canvas.toBlob(blob => {
     if (blob) {
       if (TESTING_VISUAL_REGRESSION) {
-        window.open(URL.createObjectURL(blob), "_self");
+        const imgElement = document.createElement("img");
+        imgElement.src = URL.createObjectURL(blob);
+
+        window.document.querySelector("#root")
+          ?.replaceChildren(imgElement);
+
+        // window.open(URL.createObjectURL(blob), "_self");
       } else {
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
