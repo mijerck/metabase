@@ -38,16 +38,22 @@ export const saveChartImage = async (selector: string, fileName: string) => {
     },
   });
 
+  const TESTING_VISUAL_REGRESSION = true; // will eventually come from a env/similar
+
   canvas.toBlob(blob => {
     if (blob) {
-      const link = document.createElement("a");
-      const url = URL.createObjectURL(blob);
-      link.rel = "noopener";
-      link.download = fileName;
-      link.href = url;
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      if (TESTING_VISUAL_REGRESSION) {
+        window.open(URL.createObjectURL(blob), "_self");
+      } else {
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.rel = "noopener";
+        link.download = fileName;
+        link.href = url;
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      }
     }
   });
 };
