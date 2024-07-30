@@ -44,6 +44,9 @@ export const goToNextStep = createAsyncThunk(
     const state = getState() as State;
     const nextStep = getNextStep(state);
     dispatch(selectStep(nextStep));
+    if (nextStep === "completed") {
+      dispatch(setEmbeddingHomepageFlags());
+    }
   },
 );
 
@@ -219,14 +222,6 @@ export const updateTracking = createAsyncThunk(
   },
 );
 
-export const SUBMIT_SETUP = "metabase/setup/SUBMIT_SETUP";
-export const submitSetup = createAsyncThunk<void, void, ThunkConfig>(
-  SUBMIT_SETUP,
-  async (_, { dispatch }) => {
-    dispatch(setEmbeddingHomepageFlags());
-    dispatch(goToNextStep());
-  },
-);
 
 export const setEmbeddingHomepageFlags = createAsyncThunk(
   "setup/setEmbeddingHomepageFlags",

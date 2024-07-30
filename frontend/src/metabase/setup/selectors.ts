@@ -95,6 +95,9 @@ export const getSteps = (state: State) => {
 
   const isPaidPlan =
     tokenFeatures && Object.values(tokenFeatures).some(value => value === true);
+  const isHosted = tokenFeatures && tokenFeatures["hosting"];
+  const shouldShowDataUsageStep = !isHosted;
+
   const hasAddedPaidPlanInPreviousStep = Boolean(state.setup.licenseToken);
 
   const shouldShowDBConnectionStep = usageReason !== "embedding";
@@ -110,7 +113,7 @@ export const getSteps = (state: State) => {
       key: "db_connection" as const,
     },
     shouldShowLicenseStep && { key: "license_token" as const },
-    { key: "data_usage" as const },
+    shouldShowDataUsageStep ? { key: "data_usage" as const } : null,
     { key: "completed" as const },
   ]
     .filter(isNotFalsy)
