@@ -11,6 +11,12 @@ runs:
       with:
         node-version: ${{ inputs.node-version }} # this overrides, if present
         node-version-file: ".nvmrc"
+
+    - name: Setup bun
+      users: oven-sh/setup-bun@v2
+
+    - run: bun install
+
     - name: Check to see if dependencies should be cached
       if: ${{ contains(github.event.head_commit.message, '[ci nocache]') }}
       run: |
