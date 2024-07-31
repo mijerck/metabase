@@ -312,7 +312,7 @@
     "build-embedding-sdk-cli:watch": "yarn build-embedding-sdk-cli --watch",
     "build-hot": "rm -f target/cljs_dev/cljs.core.js && yarn concurrently -n 'cljs,js' -c 'yellow,green' 'yarn build-hot:cljs' 'yarn build-hot:js-wait'",
     "build-hot:cljs": "yarn && shadow-cljs watch app",
-    "build-hot:js": "yarn && NODE_OPTIONS=--max-old-space-size=8196 WEBPACK_BUNDLE=hot webpack serve --host 0.0.0.0",
+    "build-hot:js": "NODE_OPTIONS=--max-old-space-size=8196 WEBPACK_BUNDLE=hot webpack serve --host 0.0.0.0",
     "build-hot:js-wait": "yarn wait:cljs; yarn build-hot:js",
     "build-pure:cljs": "yarn clean-dev:cljs && shadow-cljs compile app",
     "build-release": "yarn build-release:cljs && yarn build-release:js",
