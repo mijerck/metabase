@@ -46,6 +46,7 @@ import { CollectionsIcon } from "./CollectionBreadcrumbsWithTooltip.styled";
 import { EllipsifiedWithMarkdownTooltip } from "./EllipsifiedWithMarkdownTooltip";
 import {
   ModelCell,
+  ModelCollectionColumn,
   ModelNameColumn,
   ModelTableRow,
 } from "./ModelsTable.styled";
@@ -94,8 +95,8 @@ export const ModelsTable = ({
   const sortedModels = sortModels(models, sortingOptions, locale);
 
   /** The name column has an explicitly set width. The remaining columns divide the remaining width. This is the percentage allocated to the collection column */
-  const collectionWidth = 38.5;
-  const descriptionWidth = 100 - collectionWidth;
+  const collectionWidth = 33;
+  const descriptionWidth = 33;
 
   const handleUpdateSortOptions = skeleton
     ? undefined
@@ -121,10 +122,10 @@ export const ModelsTable = ({
         <ModelNameColumn containerName={itemsTableContainerName} />
 
         {/* <col> for Collection column */}
-        <TableColumn {...collectionProps} width={`${collectionWidth}%`} />
+        <ModelCollectionColumn {...collectionProps} />
 
         {/* <col> for Description column */}
-        <TableColumn {...descriptionProps} width={`${descriptionWidth}%`} />
+        <TableColumn {...descriptionProps}  />
 
         <Columns.RightEdge.Col />
       </colgroup>

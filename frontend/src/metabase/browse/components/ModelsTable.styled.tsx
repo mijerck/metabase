@@ -34,13 +34,24 @@ export const ModelCell = styled.td<ResponsiveProps>`
 `;
 
 export const ModelNameColumn = styled(TableColumn)`
-  width: 356px;
+  width: 33%;
+
+  // @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
+  //   width: 280px;
+  // }
+
+  // @container ${props => props.containerName} (max-width: ${breakpoints.sm}) {
+  //   width: 200px;
+  // }
 
   @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
-    width: 280px;
+    width: 50%;
   }
+`;
 
-  @container ${props => props.containerName} (max-width: ${breakpoints.sm}) {
-    width: 200px;
+export const ModelCollectionColumn = styled(TableColumn)`
+  width: 33%;
+  @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
+    width: 50%;
   }
 `;
