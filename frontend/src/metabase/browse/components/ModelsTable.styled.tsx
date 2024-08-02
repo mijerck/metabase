@@ -36,22 +36,19 @@ export const ModelCell = styled.td<ResponsiveProps>`
 export const ModelNameColumn = styled(TableColumn)`
   width: 33%;
 
-  // @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
-  //   width: 280px;
-  // }
-
-  // @container ${props => props.containerName} (max-width: ${breakpoints.sm}) {
-  //   width: 200px;
-  // }
-
-  @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
+  @container ${props => props.containerName} (max-width: ${breakpoints.sm}) {
     width: 50%;
+  }
+
+  @container ${props => props.containerName} (max-width: ${breakpoints.xs}) {
+    width: 100%;
   }
 `;
 
 export const ModelCollectionColumn = styled(TableColumn)`
   width: 33%;
-  @container ${props => props.containerName} (max-width: ${breakpoints.md}) {
+
+  @container ${props => props.containerName} (max-width: ${breakpoints.sm}) {
     width: 50%;
   }
 `;
