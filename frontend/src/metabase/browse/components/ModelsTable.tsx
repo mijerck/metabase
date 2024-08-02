@@ -1,7 +1,7 @@
 import {
   type PropsWithChildren,
-  useEffect,
   useState,
+  useEffect,
   type CSSProperties,
 } from "react";
 import { push } from "react-router-redux";
@@ -94,10 +94,6 @@ export const ModelsTable = ({
   const locale = useLocale();
   const sortedModels = sortModels(models, sortingOptions, locale);
 
-  /** The name column has an explicitly set width. The remaining columns divide the remaining width. This is the percentage allocated to the collection column */
-  const collectionWidth = 33;
-  const descriptionWidth = 33;
-
   const handleUpdateSortOptions = skeleton
     ? undefined
     : (newSortingOptions: SortingOptions) => {
@@ -125,7 +121,7 @@ export const ModelsTable = ({
         <ModelCollectionColumn {...collectionProps} />
 
         {/* <col> for Description column */}
-        <TableColumn {...descriptionProps}  />
+        <TableColumn {...descriptionProps} />
 
         <Columns.RightEdge.Col />
       </colgroup>
