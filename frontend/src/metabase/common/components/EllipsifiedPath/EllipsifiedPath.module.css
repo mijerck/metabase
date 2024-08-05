@@ -1,0 +1,27 @@
+.path {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-x: hidden;
+}
+
+.pathSeparator {
+  opacity: 0.5;
+  min-width: 0;
+  flex-shrink: 0;
+  padding-inline: 0.1rem;
+}
+
+.pathItem {
+  flex-grow: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: fit-content;
+
+  &:first-child,
+  &:last-child {
+    min-width: fit-content;
+  }
+}
