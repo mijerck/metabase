@@ -293,16 +293,16 @@ const _StrategyEditorForQuestionsAndDashboards = ({
                     return _.get(row, columnName);
                   }
                 }}
-                appendToBody={
-                  cacheableItems.length ? null : <NoResultsTableRow />
-                }
-                aria-labelledby={explanatoryAsideId}
+                ifEmpty={<NoResultsTableRow />}
+            aria-labelledby={explanatoryAsideId}
+            colGroup={
+              <colgroup>
+                <col style={{ width: "30%" }} />
+                <col style={{ width: "30%" }} />
+                <col style={{ width: "30%" }} />
+              </colgroup>
+            }
               >
-                <colgroup>
-                  <col style={{ width: "30%" }} />
-                  <col style={{ width: "30%" }} />
-                  <col style={{ width: "30%" }} />
-                </colgroup>
               </StyledTable>
             </Flex>
           </DelayedLoadingAndErrorWrapper>
