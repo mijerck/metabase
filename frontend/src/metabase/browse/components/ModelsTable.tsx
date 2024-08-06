@@ -230,7 +230,10 @@ const TBodyRow = ({
         }`}
         {...collectionProps}
       >
-        <Flex gap="sm">
+        <Flex
+          gap="sm"
+          data-testid={`path-for-collection: ${model.collection.name}`}
+        >
           <FixedSizeIcon name="folder" />
           <Box w="calc(100% - 1.5rem)">
             <EllipsifiedPath
