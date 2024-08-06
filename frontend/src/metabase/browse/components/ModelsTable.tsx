@@ -324,8 +324,8 @@ const TBodyRowSkeleton = ({ style }: { style?: CSSProperties }) => {
 
       {/* Collection */}
       <ModelCell {...collectionProps}>
-        <Flex>
-          <FixedSizeIcon style={{ marginInlineEnd: ".5rem" }} name="folder" />
+        <Flex gap=".5rem">
+          <FixedSizeIcon name="folder" />
           <CellTextSkeleton />
         </Flex>
       </ModelCell>
