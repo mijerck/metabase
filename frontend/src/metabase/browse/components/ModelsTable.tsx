@@ -36,6 +36,7 @@ import {
 } from "metabase/ui";
 import { Repeat } from "metabase/ui/components/feedback/Skeleton/Repeat";
 import { SortDirection, type SortingOptions } from "metabase-types/api/sorting";
+import S from "./ModelsTable.module.css";
 
 import { trackModelClick } from "../analytics";
 import type { ModelResult } from "../types";
@@ -53,6 +54,7 @@ import {
   getModelDescription,
   sortModels,
 } from "./utils";
+import Link from "metabase/core/components/Link";
 
 export interface ModelsTableProps {
   models?: ModelResult[];
@@ -230,22 +232,27 @@ const TBodyRow = ({
         }`}
         {...collectionProps}
       >
-        <Flex
-          gap="sm"
-          data-testid={`path-for-collection: ${model.collection.name}`}
+        <Link
+          className={S.collectionLink}
+          to={Urls.collection(model.collection)}
+          onClick={e => e.stopPropagation()}
         >
-          <FixedSizeIcon name="folder" />
-          <Box w="calc(100% - 1.5rem)">
-            <EllipsifiedPath
-              tooltip={getCollectionPathString(model.collection)}
-              items={[
-                ...(model.collection?.effective_ancestors?.map(c => c.name) ||
-                  []),
-                model.collection.name,
-              ]}
-            />
-          </Box>
-        </Flex>
+          <Flex
+            gap="sm"
+            data-testid={`path-for-collection: ${model.collection.name}`}
+          >
+            <FixedSizeIcon name="folder" />
+            <Box w="calc(100% - 1.5rem)">
+              <EllipsifiedPath
+                tooltip={getCollectionPathString(model.collection)}
+                items={[
+                  ...(model.collection?.effective_ancestors || []),
+                  model.collection,
+                ].map(c => getCollectionName(c))}
+              />
+            </Box>
+          </Flex>
+        </Link>
       </ModelCell>
 
       {/* Description */}

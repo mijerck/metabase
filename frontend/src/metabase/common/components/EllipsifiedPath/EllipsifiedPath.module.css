@@ -3,16 +3,35 @@
   display: flex;
   flex-flow: row nowrap;
   overflow-x: hidden;
+  container-type: inline-size;
 }
 
-.pathSeparator {
+.slash {
   opacity: 0.5;
   min-width: 0;
   flex-shrink: 0;
   padding-inline: 0.1rem;
 }
 
-.pathItem {
+.item,
+.slash {
+  @container (max-width: 12rem) {
+    &:not(&:last-child) {
+      display: none;
+    }
+  }
+}
+
+.dots {
+  opacity: 0.5;
+  display: none;
+
+  @container (max-width: 200px) {
+    display: flex;
+  }
+}
+
+.item {
   flex-grow: 1;
   min-width: 0;
   white-space: nowrap;
@@ -20,8 +39,28 @@
   text-overflow: ellipsis;
   max-width: fit-content;
 
-  &:first-child,
+  /* The first path item should try to be a bit bigger than average */
+  &:nth-child(2) {
+    flex-basis: 100%;
+  }
+
+  /* The last path item should show all of itself if possible */
   &:last-child {
-    min-width: fit-content;
+    flex-basis: 1000%;
+  }
+
+  &:not(&:last-child) {
+    &.small {
+      color: transparent;
+      flex-basis: 1000%;
+      font-size: 0;
+
+      &:before {
+        color: var(--mb-color-text-primary);
+        content: "…";
+        font-size: 14px;
+        opacity: 0.5;
+      }
+    }
   }
 }
