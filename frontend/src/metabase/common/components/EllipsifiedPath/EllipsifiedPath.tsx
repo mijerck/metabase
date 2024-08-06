@@ -8,9 +8,8 @@ type EllipsifiedPathProps = { items: string[]; tooltip: string };
 export const EllipsifiedPath = ({ items, tooltip }: EllipsifiedPathProps) => {
   const { areAnyTruncated, ref } = useAreAnyTruncated<HTMLDivElement>();
 
-  const isTooltipEnabled = areAnyTruncated;
   return (
-    <Tooltip label={tooltip} disabled={!isTooltipEnabled} multiline maw="20rem">
+    <Tooltip label={tooltip} disabled={!areAnyTruncated} multiline maw="20rem">
       <div>
         <div className={S.path}>
           {items.map((item, index) => {
