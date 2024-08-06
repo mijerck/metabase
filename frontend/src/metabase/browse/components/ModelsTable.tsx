@@ -32,6 +32,7 @@ import {
   type IconName,
   Skeleton,
   FixedSizeIcon,
+  Box,
 } from "metabase/ui";
 import { Repeat } from "metabase/ui/components/feedback/Skeleton/Repeat";
 import { SortDirection, type SortingOptions } from "metabase-types/api/sorting";
@@ -229,16 +230,19 @@ const TBodyRow = ({
         }`}
         {...collectionProps}
       >
-        {
-          <EllipsifiedPath
-            tooltip={getCollectionPathString(model.collection)}
-            items={[
-              ...(model.collection?.effective_ancestors?.map(c => c.name) ||
-                []),
-              model.collection.name,
-            ]}
-          />
-        }
+        <Flex gap="sm">
+          <FixedSizeIcon name="folder" />
+          <Box w="calc(100% - 1.5rem)">
+            <EllipsifiedPath
+              tooltip={getCollectionPathString(model.collection)}
+              items={[
+                ...(model.collection?.effective_ancestors?.map(c => c.name) ||
+                  []),
+                model.collection.name,
+              ]}
+            />
+          </Box>
+        </Flex>
       </ModelCell>
 
       {/* Description */}
