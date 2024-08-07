@@ -51,7 +51,8 @@ runs:
         # current github actions settings will invalidate saved cache after
         # a week or so, new cache will be fresh we'll not need to spend time
         # on it's saving for a specific hash of yarn.lock
-        key: ${{ runner.os }}-yarn-
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: ${{ runner.os }}-yarn-
 
     - run: yarn install --frozen-lockfile --prefer-offline
       if: ${{ inputs.ignore-optional-dependencies == 'false' }}
