@@ -26,24 +26,6 @@ export interface SetupOpts {
   tokenFeatures?: Partial<TokenFeatures>;
 }
 
-const mockDatabases = Array.from({ length: 4 }, (_, i) =>
-  createSampleDatabase({ id: i + 1, name: `Database ${i + 1}`, tables: [] }),
-);
-const mockCacheConfigs = [
-  createMockCacheConfigWithMultiplierStrategy({ model_id: 1 }),
-  createMockCacheConfigWithDoNotCacheStrategy({ model_id: 2 }),
-  createMockCacheConfigWithDurationStrategy({ model_id: 3 }),
-  createMockCacheConfig({
-    model: "root",
-    model_id: 0,
-    strategy: {
-      type: "duration",
-      duration: 1,
-      unit: CacheDurationUnit.Hours,
-    },
-  }),
-];
-
 export const setupStrategyEditorForDatabases = ({
   hasEnterprisePlugins,
   tokenFeatures = {},
@@ -61,9 +43,26 @@ export const setupStrategyEditorForDatabases = ({
     setupEnterprisePlugins();
   }
 
-  setupPerformanceEndpoints(mockCacheConfigs);
+  const cacheConfigs = [
+    createMockCacheConfigWithMultiplierStrategy({ model_id: 1 }),
+    createMockCacheConfigWithDoNotCacheStrategy({ model_id: 2 }),
+    createMockCacheConfigWithDurationStrategy({ model_id: 3 }),
+    createMockCacheConfig({
+      model: "root",
+      model_id: 0,
+      strategy: {
+        type: "duration",
+        duration: 1,
+        unit: CacheDurationUnit.Hours,
+      },
+    }),
+  ];
+  setupPerformanceEndpoints(cacheConfigs);
 
-  setupDatabasesEndpoints(mockDatabases);
+  const databases = Array.from({ length: 4 }, (_, i) =>
+    createSampleDatabase({ id: i + 1, name: `Database ${i + 1}`, tables: [] }),
+  );
+  setupDatabasesEndpoints(databases);
 
   return renderWithProviders(<StrategyEditorForDatabases />, {
     storeInitialState,
