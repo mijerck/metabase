@@ -36,6 +36,7 @@ import type {
   CardQueryMetadata,
   CardId,
   ModelIndex,
+  CacheConfig,
 } from "metabase-types/api";
 import {
   ACTIVITY_MODELS,
@@ -203,6 +204,23 @@ export function provideModelIndexListTags(
   return [
     listTag("model-index"),
     ...modelIndexes.flatMap(modelIndex => provideModelIndexTags(modelIndex)),
+  ];
+}
+
+export function provideCacheConfigListTags(
+  cacheConfigs: CacheConfig[],
+): TagDescription<TagType>[] {
+  return [
+    listTag("cache-config"),
+    ...cacheConfigs.flatMap(provideCacheConfigTags),
+  ];
+}
+
+export function provideCacheConfigTags(
+  cacheConfig: CacheConfig,
+): TagDescription<TagType>[] {
+  return [
+    idTag("cache-config", `${cacheConfig.model},${cacheConfig.model_id}`),
   ];
 }
 
