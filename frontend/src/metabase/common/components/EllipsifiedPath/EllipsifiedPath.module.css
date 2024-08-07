@@ -48,19 +48,4 @@
   &:last-child {
     flex-basis: 1000%;
   }
-
-  &:not(&:last-child) {
-    &.small {
-      color: transparent;
-      flex-basis: 1000%;
-      font-size: 0;
-
-      &:before {
-        color: var(--mb-color-text-primary);
-        content: "…";
-        font-size: 14px;
-        opacity: 0.5;
-      }
-    }
-  }
 }
