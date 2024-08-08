@@ -1,19 +1,27 @@
-import { useEffect, useState } from "react";
-import { useAsync } from "react-use";
-import _ from "underscore";
+import { useEffect, useMemo, useState } from "react";
 
-import { CacheConfigApi } from "metabase/services";
-import type {
-  CacheConfigAPIResponse,
-  CacheConfig,
-  CacheableModel,
-} from "metabase-types/api";
+import type { CacheConfig, CacheableModel } from "metabase-types/api";
 
 import { rootId } from "../constants/simple";
 import { translateConfigFromAPI } from "../utils";
 
 import { useRecentlyTrue } from "./useRecentlyTrue";
 import { useListCacheConfigsQuery } from "metabase/api/cache";
+import { skipToken } from "@reduxjs/toolkit/query";
+
+const useListCacheConfigsForModel = (
+  configurableModels: CacheableModel[],
+  model: CacheableModel,
+  id?: number,
+) =>
+  useListCacheConfigsQuery(
+    configurableModels.includes(model)
+      ? {
+          model,
+          id,
+        }
+      : skipToken,
+  );
 
 export const useCacheConfigs = ({
   configurableModels,
@@ -22,28 +30,18 @@ export const useCacheConfigs = ({
   configurableModels: CacheableModel[];
   id?: number;
 }) => {
-  // FIXME: Don't do a loop over configurableModels. Hard-code each call to useListCacheConfigsQuery and use skip token if the model is not present.
-  //
-  // Do multiple queries in parallel to get the cache configurations for each model, and combine the data, isFetching, and error states
-  const { configsFromAPI, isFetching, error } = configurableModels.reduce(
-    (acc, model) => {
-      const { data, isFetching, error } = useListCacheConfigsQuery({
-        model,
-        id,
-      });
-      return {
-        configsFromAPI: acc.configsFromAPI.concat(data?.data || []),
-        isFetching: acc.isFetching || isFetching,
-        error: acc.error || error,
-      };
-    },
-    {
-      configsFromAPI: [] as CacheConfig[],
-      isFetching: false,
-      error: null as unknown,
-    },
-  );
-  const translatedConfigs = configsFromAPI.map(translateConfigFromAPI);
+  const results = [
+    useListCacheConfigsForModel(configurableModels, "root", id),
+    useListCacheConfigsForModel(configurableModels, "database", id),
+    useListCacheConfigsForModel(configurableModels, "dashboard", id),
+    useListCacheConfigsForModel(configurableModels, "question", id),
+  ];
+  const { configsFromAPI, isFetching, error } = useMemo(() => {
+    const configsFromAPI = results.map(result => result.data?.data);
+    const error = results.find(result => result.error)?.error;
+    const isFetching = results.some(result => result.isFetching);
+    return { configsFromAPI, isFetching, error };
+  }, [results]);
 
   const [configs, setConfigs] = useState<CacheConfig[]>([]);
 
@@ -63,18 +61,23 @@ export const useCacheConfigs = ({
   const loading = isFetching || !areConfigsInitialized;
 
   useEffect(() => {
-    if (translatedConfigs) {
+    if (configsFromAPI) {
+      const flattenedConfigs = configsFromAPI
+        .flat()
+        .filter(Boolean) as CacheConfig[];
+      const translatedConfigs = [...flattenedConfigs].map(
+        translateConfigFromAPI,
+      );
       setConfigs(translatedConfigs);
       setAreConfigsInitialized(true);
     }
-  }, [translatedConfigs]);
+  }, [...configsFromAPI]);
 
   return {
     error,
     loading,
     configs,
     setConfigs,
-    configsFromAPI,
     rootStrategyOverriddenOnce,
     rootStrategyRecentlyOverridden,
   };

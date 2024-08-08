@@ -67,7 +67,7 @@ const StrategyEditorForDatabases_Base = ({
   const targetConfig = findWhere(configs, {
     model_id: targetId ?? undefined,
   });
-  const savedStrategy = targetConfig?.strategy;
+  const savedStrategy = structuredClone(targetConfig?.strategy);
 
   if (savedStrategy?.type === "duration") {
     savedStrategy.unit = CacheDurationUnit.Hours;
