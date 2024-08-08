@@ -22,6 +22,8 @@ export const useCacheConfigs = ({
   configurableModels: CacheableModel[];
   id?: number;
 }) => {
+  // FIXME: Don't do a loop over configurableModels. Hard-code each call to useListCacheConfigsQuery and use skip token if the model is not present.
+  //
   // Do multiple queries in parallel to get the cache configurations for each model, and combine the data, isFetching, and error states
   const { configsFromAPI, isFetching, error } = configurableModels.reduce(
     (acc, model) => {
@@ -65,7 +67,7 @@ export const useCacheConfigs = ({
       setConfigs(translatedConfigs);
       setAreConfigsInitialized(true);
     }
-  }, [configsFromAPI]);
+  }, [translatedConfigs]);
 
   return {
     error,
