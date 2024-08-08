@@ -1,8 +1,6 @@
 import { screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-// FIXME: links to questions/dashboards in the table are not working
-
 import { getIcon, queryIcon, render } from "__support__/ui";
 
 import { Table } from "./Table";
@@ -47,7 +45,7 @@ const sampleData: Pokemon[] = [
   },
 ];
 
-/** The Japanese words for 'blue' and 'green' are sorted differently in the ja-JP locale vs. the en-US locale */
+/** The Japanese words for blue and green are sorted differently in the ja-JP locale vs. the en-US locale */
 const sampleJapaneseData: Pokemon[] = [
   {
     id: 1,
@@ -146,7 +144,7 @@ describe("common > components > Table", () => {
     firstRowShouldHaveText("Squirtle");
   });
 
-  it("should respect locale when sorting tables", async () => {
+  it("should respect locales when sorting tables", async () => {
     render(
       <>
         <Table
