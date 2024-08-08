@@ -239,6 +239,78 @@ describe("BreakoutStep", () => {
       ).toHaveAttribute("aria-selected", "true");
     });
 
+    it("should show the temporal bucket for the current breakout in case there are multiple breakouts for the same column", async () => {
+      const query = createQueryWithClauses({
+        breakouts: [
+          {
+            tableName: "ORDERS",
+            columnName: "CREATED_AT",
+            temporalBucketName: "Hour",
+          },
+          {
+            tableName: "ORDERS",
+            columnName: "CREATED_AT",
+            temporalBucketName: "Day",
+          },
+        ],
+      });
+      setup(createMockNotebookStep({ query }));
+
+      await userEvent.click(screen.getByText("Created At: Hour"));
+      const firstOption = await screen.findByRole("option", {
+        name: "Created At",
+      });
+      await userEvent.click(within(firstOption).getByText("by hour"));
+      expect(
+        await screen.findByRole("menuitem", { name: "Hour" }),
+      ).toHaveAttribute("aria-selected", "true");
+
+      await userEvent.click(screen.getByText("Created At: Day"));
+      const secondOption = await screen.findByRole("option", {
+        name: "Created At",
+      });
+      await userEvent.click(within(secondOption).getByText("by day"));
+      expect(
+        await screen.findByRole("menuitem", { name: "Day" }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("should show the binning strategy for the current breakout in case there are multiple breakouts for the same column", async () => {
+      const query = createQueryWithClauses({
+        breakouts: [
+          {
+            tableName: "ORDERS",
+            columnName: "TAX",
+            binningStrategyName: "10 bins",
+          },
+          {
+            tableName: "ORDERS",
+            columnName: "TAX",
+            binningStrategyName: "50 bins",
+          },
+        ],
+      });
+      setup(createMockNotebookStep({ query }));
+
+      await userEvent.click(screen.getByText("Tax: 10 bins"));
+      const firstOption = await screen.findByRole("option", {
+        name: "Tax",
+      });
+      await userEvent.click(within(firstOption).getByText("10 bins"));
+      expect(
+        await screen.findByRole("menuitem", { name: "10 bins" }),
+      ).toHaveAttribute("aria-selected", "true");
+
+      await userEvent.click(screen.getByText("Tax: 50 bins"));
+      const secondOption = await screen.findByRole("option", {
+        name: "Tax",
+      });
+      await userEvent.click(within(secondOption).getByText("50 bins"));
+      expect(
+        await screen.findByRole("menuitem", { name: "50 bins" }),
+      ).toHaveAttribute("aria-selected", "true");
+    });
+
     it("should handle `Don't bin` option for temporal bucket (metabase#19684)", async () => {
       const query = createQueryWithTemporalBreakout("Don't bin");
       setup(createMockNotebookStep({ query }));
