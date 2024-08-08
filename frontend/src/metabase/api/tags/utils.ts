@@ -207,6 +207,13 @@ export function provideModelIndexListTags(
   ];
 }
 
+/** Cache configs do not have an id. They are identified by a model (such as
+ * 'question', 'dashboard', or 'database') and a model_id (the id of the
+ * question, dashboard, or database) */
+export const cacheIdTag = (
+  cacheConfig: Pick<CacheConfig, "model" | "model_id">,
+) => idTag("cache-config", `${cacheConfig.model_id},${cacheConfig.model}`);
+
 export function provideCacheConfigListTags(
   cacheConfigs: CacheConfig[],
 ): TagDescription<TagType>[] {
@@ -219,9 +226,7 @@ export function provideCacheConfigListTags(
 export function provideCacheConfigTags(
   cacheConfig: CacheConfig,
 ): TagDescription<TagType>[] {
-  return [
-    idTag("cache-config", `${cacheConfig.model},${cacheConfig.model_id}`),
-  ];
+  return [cacheIdTag(cacheConfig)];
 }
 
 export function provideDatabaseCandidateListTags(

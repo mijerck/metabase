@@ -1,14 +1,12 @@
 import { CacheConfig, CacheableModel } from "metabase-types/api";
 import { Api } from "./api";
 import {
-  idTag,
+  cacheIdTag,
   invalidateTags,
   listTag,
   provideCacheConfigListTags,
-  provideCacheConfigTags,
 } from "./tags";
 import {
-  GetCacheConfigRequest,
   ListCacheConfigsRequest,
   ListCacheConfigsResponse,
   UpdateCacheConfigRequest,
@@ -28,79 +26,52 @@ export const cacheConfigApi = Api.injectEndpoints({
       providesTags: response =>
         provideCacheConfigListTags(response?.data ?? []),
     }),
-    // FIXME: delete?
-    // getCacheConfig: builder.query<CacheConfig, GetCacheConfigRequest>({
-    //   query: ({ model, id }) => ({
-    //     method: "GET",
-    //     url: `/api/cache`,
-    //     params: { model, id },
-    //   }),
-    //   providesTags: cacheConfig =>
-    //     cacheConfig ? provideCacheConfigTags(cacheConfig) : [],
-    // }),
-    // createCacheConfig: builder.mutation<CacheConfig, CreateCacheConfigRequest>({
-    //   query: body => ({
-    //     method: "POST",
-    //     url: "/api/dashboard",
-    //     body,
-    //   }),
-    //   invalidatesTags: (newCacheConfig, error) =>
-    //     newCacheConfig
-    //       ? [
-    //           ...invalidateTags(error, [listTag("dashboard")]),
-    //           ...invalidateTags(error, [
-    //             idTag("collection", newCacheConfig.collection_id ?? "root"),
-    //           ]),
-    //         ]
-    //       : [],
-    // }),
     updateCacheConfig: builder.mutation<CacheConfig, UpdateCacheConfigRequest>({
-      query: (cacheConfig) => ({
+      query: cacheConfig => ({
         method: "PUT",
-        url: `/api/cache`,
-        {body: cacheConfig},
+        url: "/api/cache",
+        body: cacheConfig,
       }),
-      invalidatesTags: (_, error, { id }) =>
+      invalidatesTags: (_, error, cacheConfig) =>
         invalidateTags(error, [
           listTag("cache-config"),
-          idTag("cache-config", id),
+          cacheIdTag(cacheConfig),
         ]),
     }),
     deleteCacheConfig: builder.mutation<
       void,
       { model: CacheableModel; model_id: number }
     >({
-      query: ({ model, model_id }) => ({
+      query: cacheConfig => ({
         method: "DELETE",
-        url: `/api/cache`,
-        model,
-        model_id,
+        url: "/api/cache",
+        body: cacheConfig,
       }),
-      invalidatesTags: (_, error, { model, model_id }) =>
+      invalidatesTags: (_, error, cacheConfig) =>
         invalidateTags(error, [
           listTag("cache-config"),
-          idTag("cache-config", `${model},${model_id}`),
+          cacheIdTag(cacheConfig),
         ]),
     }),
+    // This mutation invalidates the cache for a specific model (such as a
+    // question, dashboard, or database). It doesn't need to invalidate RTK's
+    // cache
     invalidateCacheConfig: builder.mutation<
       void,
       { model: CacheableModel; model_id: number }
     >({
-      query: ({ model, model_id }) => ({
+      query: cacheConfig => ({
         method: "POST",
-        url: `/api/cache/invalidate`,
-        model,
-        model_id,
+        url: "/api/cache/invalidate",
+        body: cacheConfig,
       }),
     }),
   }),
 });
 
 export const {
-  useGetCacheConfigQuery,
   useListCacheConfigsQuery,
-  useCreateCacheConfigMutation,
   useUpdateCacheConfigMutation,
-  useSaveCacheConfigMutation,
   useDeleteCacheConfigMutation,
+  useInvalidateCacheConfigMutation,
 } = cacheConfigApi;

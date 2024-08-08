@@ -2,6 +2,7 @@ import { CacheConfig, CacheableModel } from "./performance";
 
 export interface ListCacheConfigsRequest {
   model: CacheableModel;
+  id?: number;
 }
 
 export type ListCacheConfigsResponse = {

@@ -13,6 +13,7 @@ import { rootId } from "../constants/simple";
 import { translateConfigFromAPI } from "../utils";
 
 import { useRecentlyTrue } from "./useRecentlyTrue";
+import { useListCacheConfigsQuery } from "metabase/api/cache";
 
 export const useCacheConfigs = ({
   configurableModels,
@@ -21,20 +22,26 @@ export const useCacheConfigs = ({
   configurableModels: CacheableModel[];
   id?: number;
 }) => {
-  const configsApiResult = useAsync(async () => {
-    const configsForEachModel = await Promise.all(
-      configurableModels.map(model =>
-        CacheConfigApi.list({ model, id }).then(
-          (response: CacheConfigAPIResponse) => response.data,
-        ),
-      ),
-    );
-    const configs = _.flatten(configsForEachModel);
-    const translatedConfigs = configs.map(translateConfigFromAPI);
-    return translatedConfigs;
-  }, [configurableModels, id]);
-
-  const configsFromAPI = configsApiResult.value;
+  // Do multiple queries in parallel to get the cache configurations for each model, and combine the data, isFetching, and error states
+  const { configsFromAPI, isFetching, error } = configurableModels.reduce(
+    (acc, model) => {
+      const { data, isFetching, error } = useListCacheConfigsQuery({
+        model,
+        id,
+      });
+      return {
+        configsFromAPI: acc.configsFromAPI.concat(data?.data || []),
+        isFetching: acc.isFetching || isFetching,
+        error: acc.error || error,
+      };
+    },
+    {
+      configsFromAPI: [] as CacheConfig[],
+      isFetching: false,
+      error: null as unknown,
+    },
+  );
+  const translatedConfigs = configsFromAPI.map(translateConfigFromAPI);
 
   const [configs, setConfigs] = useState<CacheConfig[]>([]);
 
@@ -47,17 +54,15 @@ export const useCacheConfigs = ({
     3000,
   );
 
-  const error = configsApiResult.error;
-
   // The configs are not considered fully loaded until the cache configuration data
   // has been loaded from the API _and_ has been copied into local state
   const [areConfigsInitialized, setAreConfigsInitialized] =
     useState<boolean>(false);
-  const loading = configsApiResult.loading || !areConfigsInitialized;
+  const loading = isFetching || !areConfigsInitialized;
 
   useEffect(() => {
-    if (configsFromAPI) {
-      setConfigs(configsFromAPI);
+    if (translatedConfigs) {
+      setConfigs(translatedConfigs);
       setAreConfigsInitialized(true);
     }
   }, [configsFromAPI]);
