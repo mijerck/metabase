@@ -1,28 +1,29 @@
+import { LoadingOverlay } from "@mantine/core";
+
 import { useInteractiveQuestionContext } from "embedding-sdk/components/public/InteractiveQuestion/context";
+import { ENTITY_PICKER_Z_INDEX } from "metabase/common/components/EntityPicker";
 import { useDispatch, useSelector } from "metabase/lib/redux";
-import {
-  runQuestionQuery,
-  updateQuestion,
-} from "metabase/query_builder/actions";
+import { runQuestionQuery } from "metabase/query_builder/actions";
 import { default as QBNotebook } from "metabase/query_builder/components/notebook/Notebook";
 import {
   getIsDirty,
   getIsResultDirty,
   getIsRunnable,
+  getUiControls,
 } from "metabase/query_builder/selectors";
+import { getMetadata } from "metabase/selectors/metadata";
 import { getSetting } from "metabase/selectors/settings";
 import { ScrollArea } from "metabase/ui";
-import { getMetadata } from "metabase/selectors/metadata";
-import Question from "metabase-lib/v1/Question";
-import { DatasetQuery } from "metabase-types/api";
 import { sourceTableOrCardId } from "metabase-lib";
+import type Question from "metabase-lib/v1/Question";
 
 type NotebookProps = {
   onApply?: () => void;
 };
 
 export const Notebook = ({ onApply = () => {} }: NotebookProps) => {
-  const { question, onQuestionChange } = useInteractiveQuestionContext();
+  const { question, onQuestionChange, isQueryRunning } =
+    useInteractiveQuestionContext();
 
   const isDirty = useSelector(getIsDirty);
   const isRunnable = useSelector(getIsRunnable);
@@ -32,25 +33,15 @@ export const Notebook = ({ onApply = () => {} }: NotebookProps) => {
   );
   const metadata = useSelector(getMetadata);
 
+  const { isModifiedFromNotebook } = useSelector(getUiControls);
+
   const dispatch = useDispatch();
 
   const handleUpdateQuestion = async (question: Question) => {
-    console.log("handleUpdateQuestion", question.datasetQuery());
     const query = question.query();
     const sourceTableId = sourceTableOrCardId(query);
     const table = metadata.table(sourceTableId);
     const databaseId = table?.db_id;
-
-    console.log({
-      sourceTableId,
-      table,
-      databaseId,
-      query,
-      next: question.setDatasetQuery({
-        ...question.datasetQuery(),
-        database: databaseId ?? null,
-      }),
-    });
 
     await onQuestionChange(
       question.setDatasetQuery({
@@ -63,6 +54,11 @@ export const Notebook = ({ onApply = () => {} }: NotebookProps) => {
   return (
     question && (
       <ScrollArea w="100%" h="100%">
+        <LoadingOverlay
+          zIndex={ENTITY_PICKER_Z_INDEX - 1}
+          visible={!isModifiedFromNotebook || isQueryRunning}
+          overlayBlur={2}
+        />
         <QBNotebook
           question={question}
           isDirty={isDirty}

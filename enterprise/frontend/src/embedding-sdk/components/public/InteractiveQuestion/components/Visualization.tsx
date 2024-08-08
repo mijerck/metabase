@@ -1,3 +1,4 @@
+import { useElementSize } from "@mantine/hooks";
 import cx from "classnames";
 import { t } from "ttag";
 
@@ -7,10 +8,9 @@ import {
 } from "embedding-sdk/components/private/PublicComponentWrapper";
 import CS from "metabase/css/core/index.css";
 import QueryVisualization from "metabase/query_builder/components/QueryVisualization";
+import { Box } from "metabase/ui";
 
 import { useInteractiveQuestionContext } from "../context";
-import { Box } from "metabase/ui";
-import { useElementSize } from "@mantine/hooks";
 
 export const QuestionVisualization = () => {
   const {
@@ -38,7 +38,7 @@ export const QuestionVisualization = () => {
 
   return (
     <Box ref={ref} w="100%" h="100%">
-      <Box w={width} h={height || (width ? width / 9 : 500)}>
+      <Box h={height || (width ? width / 9 : 500)}>
         <QueryVisualization
           className={cx(CS.flexFull, CS.fullWidth, CS.fullHeight)}
           question={question}

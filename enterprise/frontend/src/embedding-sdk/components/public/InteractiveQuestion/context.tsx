@@ -1,3 +1,4 @@
+import type { LocationDescriptorObject } from "history";
 import {
   createContext,
   useContext,
@@ -13,17 +14,15 @@ import {
 } from "embedding-sdk/hooks/private/use-load-question";
 import { useSdkSelector } from "embedding-sdk/store";
 import { getPlugins } from "embedding-sdk/store/selectors";
-import type { LoadSdkQuestionParams } from "embedding-sdk/types/question";
-import type { Mode } from "metabase/visualizations/click-actions/Mode";
-import { getEmbeddingMode } from "metabase/visualizations/click-actions/lib/modes";
+import * as Urls from "metabase/lib/urls";
 import {
   deserializeCard,
   parseHash,
-  QueryParams,
+  type QueryParams,
 } from "metabase/query_builder/actions";
-import { LocationDescriptorObject } from "history";
-import * as Urls from "metabase/lib/urls";
-import { CardId, Card } from "metabase-types/api";
+import type { Mode } from "metabase/visualizations/click-actions/Mode";
+import { getEmbeddingMode } from "metabase/visualizations/click-actions/lib/modes";
+import type { CardId, Card } from "metabase-types/api";
 
 interface InteractiveQuestionContextType
   extends Omit<LoadQuestionHookResult, "loadQuestion"> {
@@ -64,8 +63,6 @@ export const InteractiveQuestionProviderWithLocation = ({
   const deserializedCard = serializedCard
     ? deserializeCard(serializedCard)
     : undefined;
-
-  console.log("InteractiveQuestionProvider - ", cardId, deserializedCard?.id);
 
   return (
     <InteractiveQuestionProvider

@@ -12,14 +12,8 @@ import type {
   SdkQuestionResult,
 } from "embedding-sdk/types/question";
 import { defer, type Deferred } from "metabase/lib/promise";
-import { useDispatch, useSelector } from "metabase/lib/redux";
-import Question from "metabase-lib/v1/Question";
-import * as Urls from "metabase/lib/urls";
-import { parseHash } from "metabase/query_builder/actions";
-import * as Lib from "metabase-lib";
-import { getMetadata } from "metabase/selectors/metadata";
-import { sourceTableOrCardId } from "metabase-lib";
-import { assocIn } from "icepick";
+import { useDispatch } from "metabase/lib/redux";
+import type Question from "metabase-lib/v1/Question";
 
 export interface LoadQuestionHookResult {
   question?: Question;
@@ -45,8 +39,6 @@ export function useLoadQuestion({
   deserializedCard,
 }: LoadSdkQuestionParams): LoadQuestionHookResult {
   const dispatch = useDispatch();
-
-  const metadata = useSelector(getMetadata);
 
   // Keep track of the latest question and query results.
   // They can be updated from the below actions.
@@ -90,19 +82,6 @@ export function useLoadQuestion({
       if (!question) {
         return;
       }
-
-      console.log({
-        nextQuestion,
-        question,
-        originalQuestion,
-        attempt: Lib.databaseID(nextQuestion.query()),
-        queryDisplayInfo: Lib.queryDisplayInfo(nextQuestion.query()),
-        dependentMetadata: Lib.dependentMetadata(
-          nextQuestion.query(),
-          nextQuestion.id(),
-          nextQuestion.type(),
-        ),
-      });
 
       const result = await dispatch(
         runQuestionOnQueryChangeSdk({

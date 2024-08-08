@@ -192,6 +192,7 @@ export interface ListCollectionsRequest {
   "personal-only"?: boolean;
   "exclude-other-user-collections"?: boolean;
 }
+
 export interface ListCollectionsTreeRequest {
   "exclude-archived"?: boolean;
   "exclude-other-user-collections"?: boolean;
