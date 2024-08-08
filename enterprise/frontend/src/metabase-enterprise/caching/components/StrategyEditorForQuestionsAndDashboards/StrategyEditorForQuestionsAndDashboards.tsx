@@ -15,6 +15,7 @@ import { skipToken, useSearchQuery } from "metabase/api";
 import { getCollectionPathString } from "metabase/browse/components/utils";
 import { StyledTable } from "metabase/common/components/Table";
 import type { ColumnItem } from "metabase/common/components/Table/types";
+import { useLocale } from "metabase/common/hooks/use-locale/use-locale";
 import { DelayedLoadingAndErrorWrapper } from "metabase/components/LoadingAndErrorWrapper/DelayedLoadingAndErrorWrapper";
 import { Button, Center, Flex, Icon, Skeleton, Stack, Text } from "metabase/ui";
 import { Repeat } from "metabase/ui/components/feedback/Skeleton/Repeat";
@@ -236,6 +237,8 @@ const _StrategyEditorForQuestionsAndDashboards = ({
     updateTarget({ id: null, model: null }, isStrategyFormDirty);
   }, [updateTarget, isStrategyFormDirty]);
 
+  const locale = useLocale();
+
   return (
     <Flex
       role="region"
@@ -278,6 +281,7 @@ const _StrategyEditorForQuestionsAndDashboards = ({
                 rowRenderer={rowRenderer}
                 defaultSortColumn="name"
                 defaultSortDirection="asc"
+                locale={locale}
                 formatValueForSorting={(
                   row: CacheableItem,
                   columnName: string,
@@ -294,16 +298,15 @@ const _StrategyEditorForQuestionsAndDashboards = ({
                   }
                 }}
                 ifEmpty={<NoResultsTableRow />}
-            aria-labelledby={explanatoryAsideId}
-            colGroup={
-              <colgroup>
-                <col style={{ width: "30%" }} />
-                <col style={{ width: "30%" }} />
-                <col style={{ width: "30%" }} />
-              </colgroup>
-            }
-              >
-              </StyledTable>
+                aria-labelledby={explanatoryAsideId}
+                colGroup={
+                  <colgroup>
+                    <col style={{ width: "30%" }} />
+                    <col style={{ width: "30%" }} />
+                    <col style={{ width: "30%" }} />
+                  </colgroup>
+                }
+              ></StyledTable>
             </Flex>
           </DelayedLoadingAndErrorWrapper>
         </Flex>
@@ -358,6 +361,7 @@ const TableSkeleton = ({ columns }: { columns: ColumnItem[] }) => (
         </Repeat>
       </tr>
     )}
+    locale="en-US"
   />
 );
 
