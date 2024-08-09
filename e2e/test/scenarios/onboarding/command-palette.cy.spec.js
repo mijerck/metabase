@@ -186,7 +186,7 @@ describe("command palette", () => {
     cy.signOut();
     cy.visit("/");
 
-    cy.findByRole("heading", { name: "Sign in to Metabase" });
+    cy.findByRole("heading", { name: "Sign in to Fern Analytics" });
 
     openCommandPalette();
     commandPalette().should("not.exist");

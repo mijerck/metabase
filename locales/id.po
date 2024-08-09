@@ -2197,7 +2197,7 @@ msgid "Check your email for instructions on how to reset your password."
 msgstr "Periksa email untuk instruksi penyetelan ulang kata sandi."
 
 #: frontend/src/metabase/auth/components/Login/Login.tsx:30
-msgid "Sign in to Metabase"
+msgid "Sign in to Fern Analytics"
 msgstr "Masuk ke Metabase"
 
 #: frontend/src/metabase/auth/containers/LoginApp.jsx:165
@@ -13835,7 +13835,7 @@ msgstr "Gagal menjadwalkan tugas untuk basis data {0}"
 msgid "All elements must be distinct."
 msgstr "Semua elemen harus berbeda."
 
-#: 
+#:
 msgctxt "Modal for selecting columns in source data or when doing a join."
 msgid "Pick the columns you want to include"
 msgstr "Pilih kolom yang ingin Anda sertakan"
@@ -18298,12 +18298,12 @@ msgstr "{0} {1}"
 msgid "{1}"
 msgstr "{1}"
 
-#: 
+#:
 msgctxt "This is a new information message on the new pulse creation page."
 msgid "Pulses are being phased out"
 msgstr "Pulsa sedang dihapus"
 
-#: 
+#:
 msgctxt "An info message letting you know you can create dashboard subscriptions instead of pulses."
 msgid "You can now set up {0} instead. We'll remove Pulses in a future release, and help you migrate any that you still have."
 msgstr "Anda sekarang dapat menyiapkan {0} sebagai gantinya. Kami akan menghapus Pulsa di rilis mendatang, dan membantu Anda memigrasikan semua yang masih Anda miliki."
@@ -18312,7 +18312,7 @@ msgstr "Anda sekarang dapat menyiapkan {0} sebagai gantinya. Kami akan menghapus
 msgid "dashboard subscriptions"
 msgstr "Berlangganan Dasbor"
 
-#: 
+#:
 msgid "{0} charts in your subscription won't look the same as in your dashboard. {1}"
 msgstr "{0} grafik dalam langganan Anda tidak akan terlihat sama seperti di dasbor Anda. {1}"
 
@@ -18460,7 +18460,7 @@ msgid "Set up {0} source database and run migrations..."
 msgstr "Atur {0} basis data sumber dan jalankan migrasi ..."
 
 #. make sure the dest DB is up-to-date
-#. 
+#.
 #. don't need or want to run data migrations in the target DB, since the data is already migrated appropriately
 #: metabase/cmd/copy.clj:396
 msgid "Set up {0} target database and run migrations..."
@@ -26383,12 +26383,12 @@ msgstr "Database sampel tidak dapat diekstrak ke direktori plugins, yang dapat m
 msgid "Metabase config files require a Premium token with the :advanced-config feature."
 msgstr "File konfigurasi metabase memerlukan token Premium dengan fitur :advanced-config."
 
-#: 
+#:
 msgctxt "This is in the sidebar when creating or editing a dashboard subscription."
 msgid "Charts in subscriptions may look slightly different from charts in dashboards."
 msgstr "Bagan di langganan mungkin terlihat sedikit berbeda dari bagan di dasbor."
 
-#: 
+#:
 msgctxt "Seen when creating a new dashboard subscription."
 msgid "Recipients will see this data just as you see it, regardless of their permissions."
 msgstr "Penerima akan melihat data ini seperti yang Anda lihat, terlepas dari izin mereka."

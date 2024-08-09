@@ -2213,7 +2213,7 @@ msgid "Check your email for instructions on how to reset your password."
 msgstr "برای دریافت دستورالعمل در مورد چگونگی بازنشانی گذرواژه خود، ایمیل خود را بررسی کنید."
 
 #: frontend/src/metabase/auth/components/Login/Login.tsx:30
-msgid "Sign in to Metabase"
+msgid "Sign in to Fern Analytics"
 msgstr "به Metabase وارد شوید"
 
 #: frontend/src/metabase/auth/containers/LoginApp.jsx:165
@@ -13858,7 +13858,7 @@ msgstr "برنامه ریزی وظایف برای بانک اطلاعات {0} ا
 msgid "All elements must be distinct."
 msgstr "همه عناصر باید مشخص باشند."
 
-#: 
+#:
 msgctxt "Modal for selecting columns in source data or when doing a join."
 msgid "Pick the columns you want to include"
 msgstr "ستون هایی را که می خواهید گنجانید انتخاب کنید"
@@ -18322,12 +18322,12 @@ msgstr "{0} {1}"
 msgid "{1}"
 msgstr "{1}"
 
-#: 
+#:
 msgctxt "This is a new information message on the new pulse creation page."
 msgid "Pulses are being phased out"
 msgstr "ضربان ها به تدریج خارج می شوند"
 
-#: 
+#:
 msgctxt "An info message letting you know you can create dashboard subscriptions instead of pulses."
 msgid "You can now set up {0} instead. We'll remove Pulses in a future release, and help you migrate any that you still have."
 msgstr "به جای آن می توانید {0} را تنظیم کنید. ما در نسخه بعدی Pulses را حذف خواهیم کرد و به شما کمک می کنیم هر آنچه را که هنوز دارید حمل کنید."
@@ -18336,7 +18336,7 @@ msgstr "به جای آن می توانید {0} را تنظیم کنید. ما د
 msgid "dashboard subscriptions"
 msgstr "اشتراک داشبورد"
 
-#: 
+#:
 msgid "{0} charts in your subscription won't look the same as in your dashboard. {1}"
 msgstr "{0} نمودارهای اشتراک شما همانند داشبورد شما به نظر نمی رسند. {1}"
 
@@ -18484,7 +18484,7 @@ msgid "Set up {0} source database and run migrations..."
 msgstr "{0} پایگاه داده منبع را تنظیم کنید و مهاجرت ها را اجرا کنید ..."
 
 #. make sure the dest DB is up-to-date
-#. 
+#.
 #. don't need or want to run data migrations in the target DB, since the data is already migrated appropriately
 #: metabase/cmd/copy.clj:396
 msgid "Set up {0} target database and run migrations..."
@@ -26405,12 +26405,12 @@ msgstr "پایگاه داده نمونه را نمی توان در فهرست ا
 msgid "Metabase config files require a Premium token with the :advanced-config feature."
 msgstr "فایل های پیکربندی متابیس به یک توکن Premium با ویژگی :advanced-config نیاز دارند."
 
-#: 
+#:
 msgctxt "This is in the sidebar when creating or editing a dashboard subscription."
 msgid "Charts in subscriptions may look slightly different from charts in dashboards."
 msgstr "نمودارهای موجود در اشتراک‌ها ممکن است کمی متفاوت از نمودارهای موجود در داشبورد به نظر برسند."
 
-#: 
+#:
 msgctxt "Seen when creating a new dashboard subscription."
 msgid "Recipients will see this data just as you see it, regardless of their permissions."
 msgstr "گیرندگان این داده ها را همانطور که شما می بینید، صرف نظر از مجوزهایشان، می بینند."

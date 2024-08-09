@@ -2201,7 +2201,7 @@ msgid "Check your email for instructions on how to reset your password."
 msgstr "이메일을 확인하여 전달 된 암호 초기화 방법을 따르세요."
 
 #: frontend/src/metabase/auth/components/Login/Login.tsx:30
-msgid "Sign in to Metabase"
+msgid "Sign in to Fern Analytics"
 msgstr "Metabase에 로그인 합니다."
 
 #: frontend/src/metabase/auth/containers/LoginApp.jsx:165
@@ -13850,7 +13850,7 @@ msgstr "데이터베이스 {0}에 대한 작업을 예약하지 못했습니다.
 msgid "All elements must be distinct."
 msgstr "모든 요소는 구별되어야 합니다."
 
-#: 
+#:
 msgctxt "Modal for selecting columns in source data or when doing a join."
 msgid "Pick the columns you want to include"
 msgstr "포함할 열을 선택합니다."
@@ -18313,12 +18313,12 @@ msgstr "{0} {1}"
 msgid "{1}"
 msgstr "{1}"
 
-#: 
+#:
 msgctxt "This is a new information message on the new pulse creation page."
 msgid "Pulses are being phased out"
 msgstr "펄스가 단계적으로 제거되고 있습니다."
 
-#: 
+#:
 msgctxt "An info message letting you know you can create dashboard subscriptions instead of pulses."
 msgid "You can now set up {0} instead. We'll remove Pulses in a future release, and help you migrate any that you still have."
 msgstr "이제 대신 {0}를 설정할 수 있습니다. 향후 릴리스에서 Pulse를 제거하고 아직 가지고 있는 Pulse를 마이그레이션할 수 있도록 도와드리겠습니다."
@@ -18327,7 +18327,7 @@ msgstr "이제 대신 {0}를 설정할 수 있습니다. 향후 릴리스에서 
 msgid "dashboard subscriptions"
 msgstr "대시보드 구독"
 
-#: 
+#:
 msgid "{0} charts in your subscription won't look the same as in your dashboard. {1}"
 msgstr "구독의 {0} 차트는 대시보드에서와 동일하게 보이지 않습니다. {1}"
 
@@ -18475,7 +18475,7 @@ msgid "Set up {0} source database and run migrations..."
 msgstr "{0} 소스 데이터베이스 설정 및 마이그레이션 실행..."
 
 #. make sure the dest DB is up-to-date
-#. 
+#.
 #. don't need or want to run data migrations in the target DB, since the data is already migrated appropriately
 #: metabase/cmd/copy.clj:396
 msgid "Set up {0} target database and run migrations..."
@@ -26399,12 +26399,12 @@ msgstr "샘플 데이터베이스를 플러그인 디렉토리로 추출할 수 
 msgid "Metabase config files require a Premium token with the :advanced-config feature."
 msgstr "Metabase 구성 파일에는 :advanced-config 기능이 있는 프리미엄 토큰이 필요합니다."
 
-#: 
+#:
 msgctxt "This is in the sidebar when creating or editing a dashboard subscription."
 msgid "Charts in subscriptions may look slightly different from charts in dashboards."
 msgstr "구독의 차트는 대시보드의 차트와 약간 다르게 보일 수 있습니다."
 
-#: 
+#:
 msgctxt "Seen when creating a new dashboard subscription."
 msgid "Recipients will see this data just as you see it, regardless of their permissions."
 msgstr "수신자는 권한에 관계없이 이 데이터를 귀하가 보는 그대로 보게 됩니다."

@@ -85,7 +85,7 @@ describe("scenarios > auth > signin", () => {
     cy.signOut();
     cy.reload();
 
-    cy.findByRole("heading", { name: "Sign in to Metabase" });
+    cy.findByRole("heading", { name: "Sign in to Fern Analytics" });
     cy.findByLabelText("Email address").type(admin.email);
     cy.findByLabelText("Password").type(admin.password);
     cy.button("Sign in").click();

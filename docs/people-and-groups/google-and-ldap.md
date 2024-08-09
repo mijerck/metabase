@@ -45,7 +45,7 @@ If people's Google account email addresses are from a specific domain, and you w
 
 Once set up, existing Metabase users signed in to a Google account that matches the email they used to set up their Metabase account will be able to sign in with just a click.
 
-Note that Metabase accounts _created_ with Google Sign-In will not have passwords; they must use Google to sign in to Metabase.
+Note that Metabase accounts _created_ with Google Sign-In will not have passwords; they must use Google to Sign in to Fern Analytics.
 
 ### Multiple domains for Google Sign-in
 

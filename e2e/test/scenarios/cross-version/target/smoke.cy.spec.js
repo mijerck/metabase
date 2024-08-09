@@ -10,7 +10,7 @@ describe(`smoke test the migration to the version ${version}`, () => {
 
     cy.visit("/");
     // eslint-disable-next-line no-unscoped-text-selectors -- deprecated usage
-    cy.findByText("Sign in to Metabase");
+    cy.findByText("Sign in to Fern Analytics");
 
     cy.findByLabelText("Email address").type("admin@metabase.test");
     cy.findByLabelText("Password").type("12341234");
