@@ -248,7 +248,10 @@
         false))))
 
 (def ^:private memoized-supports?*
-  (mdb/memoize-for-application-db supports?*))
+  (memoize/memo
+   (-> supports?*
+       (vary-meta assoc ::memoize/args-fn (fn [[driver feature _database]]
+                                            [driver feature (mdb/unique-identifier)])))))
 
 (defn supports?
   "A defensive wrapper around [[database-supports?]]. It adds logging, caching, and error handling to avoid crashing the app
